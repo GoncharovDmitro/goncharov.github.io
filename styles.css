@@ -5,8 +5,8 @@
     font-family: Times New Roman, sans-serif;
 }
 .page-container {
-    max-width: 1000px;
-    margin: 30px auto;
+    max-width: 1350px;
+    margin: 50px auto;
     display: flex;
     border: 1px solid #000000;
 }
@@ -62,7 +62,7 @@ hr {
 .right-side {
     width: 100%;
     padding: 20px;
-    background-color: #79a5aa;
+    background-color: #908d95;
 }
 .portfolio {
     display: flex;
