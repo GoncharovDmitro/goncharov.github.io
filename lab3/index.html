@@ -2,9 +2,9 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1.0">
     <title>Резюме Дмитра Гончарова</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css"
 </head>
 <body>
     <div class="page-container">
@@ -12,29 +12,15 @@
             <div class="profile-photo">
                 <img src="photo12.jpg" alt="Фото Дмитра Гончарова">
             </div>
-            <header>
-                <h1>Дмитро Гончаров</h1>
-                <nav>
-                    <ul>
-                        <li><a href="#personal-info">Особисті дані</a></li>
-                        <li><a href="#experience">Досвід роботи</a></li>
-                        <li><a href="#education">Освіта</a></li>
-                        <li><a href="#skills">Навички</a></li>
-                        <li><a href="#portfolio">Портфоліо</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <section id="myinfo">
+            <div class="section personal-info">
                 <h2>Особисті дані</h2>
                 <p><strong>Ім'я:</strong> Дмитро Гончаров</p>
                 <p><strong>Адреса:</strong> вул. Вовчинецька, буд. 219, кв. 47, 76009 Івано-Франківськ</p>
-                <p><strong>Телефон:</strong> +380962824678</p>
-                <address>
-                <p>Контактна інформація: <a href="mailto:dfiusopdifo@gmail.com">dfiusopdifo@gmail.com</a></p>
-                </address>
-                <p><strong>Дата народження:</strong> <time datetime="2006-01-01">01.01.2006</time></p>
-            </section>
-            <section id="interests">
+                <p><strong>Телефон:</strong> +380962824678 </p>
+                <p><strong>Email:</strong> dfiusopdifo@gmail.com</p>
+                <p><strong>Дата народження:</strong> 01.01.2006</p>
+            </div>
+            <div class="section interests">
                 <h2>Інтереси</h2>
                 <ul>
                     <li>Комп'ютерні ігри</li>
@@ -42,72 +28,57 @@
                     <li>Психологія</li>
                     <li>Графічний дизайн</li>
                 </ul>
-            </section>
-            <section id="language">
+            </div>
+            <div class="section languages">
                 <h2>Мови</h2>
                 <p><strong>Англійська:</strong> Добре</p>
                 <p><strong>Німецька:</strong> Середній рівень</p>
                 <p><strong>Українська:</strong> Рідна мова</p>
-            </section>
+            </div>
         </div>
         <div class="right-side">
             <h1>Дмитро Гончаров</h1>
             <hr>
-            <section id="experience">
-                <h2>Досвід роботи</h2>
-                <article>
-                    <h3>C++ розробник</h3>
-                    <p><em>EPAM, Івано-Франківськ</em> (<time datetime="2022-09">вер 2022</time> - теп. час)</p>
-                    <p>Розробка програмного забезпечення, додатків, веб-інтерфейсів, модів для ігор.</p>
-                </article>
-                <div class="job">
-                    <h3>Веб-розробник</h3>
-                    <p><em>SoftServe, Маріуполь</em> (січ 2020 - лют 2022)</p>
-                    <p>Створення систем автоматичної перевірки програмного забезпечення.</p>
-                </div>
-            </section>
+            <h2>Досвід роботи</h2>
+            <div class="job">
+                <h3>C++-розробник</h3>
+                <p><em>EPAM, Івано-Франківськ</em> (вер 2022 - теп. час)</p>
+                <p>Розробка програмного забезпечення, додатків, веб-інтерфейсів,модів для ігор.</p>
+            </div>
+            <div class="job">
+                <h3>Веб-розробник</h3>
+                <p><em>SoftServe, Маріуполь</em> (січ 2020 - лют 2022)</p>
+                <p>Створення систем автоматичної перевірки програмного забезпечення.</p>
+            </div>
             <hr>
-            <section id="education">
-                <h2>Освіта і кваліфікації</h2>
-                <p><strong>Повна середня</strong> – "ЗОШ №52" (вер 2012 - лип 2023)</p>
-            </section>
+            <h2>Освіта і кваліфікації</h2>
+            <p><strong>Повна середня</strong> – "ЗОШ №52" (вер 2012 - лип 2023)</p>
             <hr>
-            <section id="courses">
-                <h2>Курси</h2>
-                <ul>
-                    <li><strong>Англійська для IT</strong> – Speak Up (Київ) (вер 2020 - чер 2023)</li>
-                    <li><strong>Cisco: побудова розподілених мереж</strong> – (тра 2021 - бер 2024)</li>
-                </ul>
-            </section>
+            <h2>Курси</h2>
+            <ul>
+                <li><strong>Англійська для IT</strong> – Speak Up (Київ) (вер 2020 - чер 2023)</li>
+                <li><strong>Cisco: побудова розподілених мереж</strong> – (тра 2021 - бер 2024)</li>
+            </ul>
             <hr>
-            <section id="skills">
-                <h2>Навички</h2>
-                <p>C++, Java, Python, SQL</p>
-            </section>
+            <h2>Навички</h2>
+            <p> C++, Java, Python, SQL</p>
             <hr>
-            <section id="works">
-                <h2>Мої роботи</h2>
-                <ol>
-                    <li>Google</li>
-                    <li>Minecraft</li>
-                    <li>Cheats For CS</li>
-                    <li>Software</li>
-                </ol>
-            </section>
-            <section id="portfolio">
-                <h2>Портфоліо</h2>
-                <div class="portfolio">
-                <a href="https://goncharovdmitro.github.io/goncharov.github.io" class="portfolio-link">Лабораторна 3</a>
-                <a href="pr1/index.html" class="portfolio-link">Практична 1</a>
-                </div>
-            </section>
-            <footer>
-                <address>
-                    <p>Контактна інформація: <a href="dfiusopdifo@gmail.com">dfiusopdifo@gmail.com</a></p>
-                </address>
-                <small>&copy; 2025 Дмитро Гончаров. Практична робота 1.</small>
-            </footer>
+            <h2>Мої роботи</h2>
+            <ol>
+                <li>Google</li>
+                <li>Minecraft</li>
+                <li>Cheats For CS</li>
+                <li>Software</li>
+            </ol>
+    <section> 
+        <h1>Дмитро Гончаров</h1>
+        <hr>
+        <h2>Портфоліо</h2>
+        <div class="portfolio">
+            <a href="lab3/index.html" class="portfolio-link">Лабораторна 3</a>
         </div>
+    </section>  
     </div>
+</div>
 </body>
 </html>
