@@ -5,7 +5,7 @@
     font-family: Times New Roman, sans-serif;
 }
 .page-container {
-    max-width: 10000px;
+    max-width: 1000px;
     margin: 30px auto;
     display: flex;
     border: 1px solid #000000;
