@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Float Layout Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        #header {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            text-transform: uppercase;
+            padding: 20px 0;
+        }
+        
+        .wrapper::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        .section {
+            box-sizing: border-box;
+            padding: 60px 10px;
+            height: 200px;
+            float: left;
+            width: 33.33333%;
+            background-color: #666;
+            color: white;
+        }
+        
+        #footer {
+            clear: both;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="header">header</div>
+        <div class="wrapper">
+            <div class="section">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam faucibus vehicula ante id venenatis. Donec a mi at lectus tempor consequat ut ut laore. In pulvinar vehicula risus, vitae porta nulla maximus at.</div>
+            <div class="section">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam faucibus vehicula ante id venenatis. Donec a mi at lectus tempor consequat ut ut laore. In pulvinar vehicula risus, vitae porta nulla maximus at.</div>
+            <div class="section">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam faucibus vehicula ante id venenatis. Donec a mi at lectus tempor consequat ut ut laore. In pulvinar vehicula risus, vitae porta nulla maximus at.</div>
+        </div>
+        <div id="footer">footer</div>
+    </div>
+</body>
+</html>
