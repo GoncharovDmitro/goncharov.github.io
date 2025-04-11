@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .calculator-container {
+            display: inline-block;
+            margin: 0 20px;
+        }
+        
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .calculator-float {
+            width: 240px;
+            background-color: #a9a9a9;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .display-float {
+            background-color: #e0e0e0;
+            height: 50px;
+            margin-bottom: 15px;
+            padding: 10px;
+            text-align: right;
+            font-size: 24px;
+            border-radius: 5px;
+            border: 1px solid #999;
+        }
+        
+        .row-float {
+            clear: both;
+        }
+        
+        .btn-float {
+            float: left;
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            background-color: #4a4a4a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-float:hover {
+            background-color: #5a5a5a;
+        }
+        
+        .btn-float:active {
+            background-color: #3a3a3a;
+            transform: scale(0.95);
+        }
+        
+        .btn-wide-float {
+            width: 110px;
+        }
+        
+        .btn-red-float {
+            background-color: #d9534f;
+        }
+        
+        .btn-red-float:hover {
+            background-color: #c9302c;
+        }
+        
+        /* Стилі для калькулятора з position */
+        .calculator-position {
+            width: 240px;
+            background-color: #a9a9a9;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            height: 340px;
+        }
+        
+        .display-position {
+            background-color: #e0e0e0;
+            height: 50px;
+            margin-bottom: 15px;
+            padding: 10px;
+            text-align: right;
+            font-size: 24px;
+            border-radius: 5px;
+            border: 1px solid #999;
+        }
+        
+        .btn-position {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #4a4a4a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-position:hover {
+            background-color: #5a5a5a;
+        }
+        
+        .btn-position:active {
+            background-color: #3a3a3a;
+            transform: scale(0.95);
+        }
+        
+        .btn-wide-position {
+            width: 110px;
+        }
+        
+        .btn-red-position {
+            background-color: #d9534f;
+        }
+        
+        .btn-red-position:hover {
+            background-color: #c9302c;
+        }
+        .row1 { top: 80px; }
+        .row2 { top: 140px; }
+        .row3 { top: 200px; }
+        .row4 { top: 260px; }
+        
+        .col1 { left: 20px; }
+        .col2 { left: 80px; }
+        .col3 { left: 140px; }
+        .col4 { left: 200px; }
+    </style>
+</head>
+<body>
+    <!-- float -->
+    <div class="calculator-container">
+        <h2>Float версія</h2>
+        <div class="calculator-float">
+            <div class="display-float">
+                <input type="text" readonly style="width: 100%; border: none; background: transparent; font-size: 24px; text-align: right;">
+            </div>
+            <div class="row-float">
+                <button class="btn-float">7</button>
+                <button class="btn-float">8</button>
+                <button class="btn-float">9</button>
+                <button class="btn-float btn-red-float">+</button>
+            </div>
+            <div class="row-float">
+                <button class="btn-float">4</button>
+                <button class="btn-float">5</button>
+                <button class="btn-float">6</button>
+                <button class="btn-float btn-red-float">-</button>
+            </div>
+            <div class="row-float">
+                <button class="btn-float">1</button>
+                <button class="btn-float">2</button>
+                <button class="btn-float">3</button>
+                <button class="btn-float btn-red-float">/</button>
+            </div>
+            <div class="row-float">
+                <button class="btn-float">0</button>
+                <button class="btn-float btn-red-float btn-wide-float">=</button>
+                <button class="btn-float btn-red-float">*</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- position -->
+    <div class="calculator-container">
+        <h2>Position версія</h2>
+        <div class="calculator-position">
+            <div class="display-position">
+                <input type="text" readonly style="width: 100%; border: none; background: transparent; font-size: 24px; text-align: right;">
+            </div>
+            <!-- Ряд 1 -->
+            <button class="btn-position row1 col1">7</button>
+            <button class="btn-position row1 col2">8</button>
+            <button class="btn-position row1 col3">9</button>
+            <button class="btn-position row1 col4 btn-red-position">+</button>
+            <button class="btn-position row2 col1">4</button>
+            <button class="btn-position row2 col2">5</button>
+            <button class="btn-position row2 col3">6</button>
+            <button class="btn-position row2 col4 btn-red-position">-</button>
+            <button class="btn-position row3 col1">1</button>
+            <button class="btn-position row3 col2">2</button>
+            <button class="btn-position row3 col3">3</button>
+            <button class="btn-position row3 col4 btn-red-position">/</button>
+            <button class="btn-position row4 col1">0</button>
+            <button class="btn-position row4 col2 btn-red-position btn-wide-position">=</button>
+            <button class="btn-position row4 col3 btn-red-position">*</button>
+        </div>
+    </div>
+</body>
+</html>
