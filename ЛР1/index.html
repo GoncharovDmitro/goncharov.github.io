@@ -1,0 +1,65 @@
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лабораторна робота №1</title>
+</head>
+<body>
+<h1>Лабораторна робота №1</h1>
+    <script type="module">
+        const journalNumber = 19;
+        const myName = "Anna";
+        const checkParity = (number) => {
+            const isEven = number % 2 === 0;
+            const parityText = isEven ? "Парне" : "Непарне";
+            const output = document.createElement('p');
+            output.style.color = isEven ? 'green' : 'red';
+            output.textContent = `Число ${number} є ${parityText}`;
+            document.body.appendChild(output);
+        };
+        const generatePassword = (name, number) => {
+            const firstThreeLetters = name.slice(0, 3);
+            const password = `${firstThreeLetters}${number * 2}`;
+            const output = document.createElement('div');
+            output.textContent = `Згенерований пароль: ${password}`;
+            document.body.appendChild(output);
+        };
+        const calculateAverage = () => {
+            const grade1 = parseFloat(prompt("Введіть першу оцінку:"));
+            const grade2 = parseFloat(prompt("Введіть другу оцінку:"));
+            const grade3 = parseFloat(prompt("Введіть третю оцінку:"));
+            
+            if (isNaN(grade1) || isNaN(grade2) || isNaN(grade3)) {
+                alert("Будь ласка, введіть коректні оцінки!");
+                return;
+            }
+
+            const average = (grade1 + grade2 + grade3) / 3;
+            const output = document.createElement('div');
+            output.id = journalNumber.toString();
+            output.textContent = `Середній бал: ${average.toFixed(2)}`;
+            document.body.appendChild(output);
+        };
+        const inputStudents = () => {
+            const count = parseInt(prompt("Введіть кількість студентів у групі:"));
+            if (isNaN(count) || count <= 0) {
+                alert("Введіть коректну кількість студентів!");
+                return;
+            }
+
+            for (let i = 0; i < count; i++) {
+                const fullName = prompt(`Введіть прізвище та ім'я студента ${i + 1}:`);
+                if (fullName) {
+                    const p = document.createElement('p');
+                    p.textContent = fullName;
+                    document.body.appendChild(p);
+                }
+            }
+        };
+        checkParity(journalNumber);
+        generatePassword(myName, journalNumber);
+        calculateAverage();
+        inputStudents();
+    </script>
+</body>
+</html>
