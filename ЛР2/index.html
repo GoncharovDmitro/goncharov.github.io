@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Завдання</title>
+</head>
+<body>
+    <h1>Завдання з JavaScript</h1>
+
+    <div>
+        <h2>Завдання 1</h2>
+        <button onclick="firstTask()">Запустити перше завдання</button>
+        <p id="task1"></p>
+    </div>
+
+    <div>
+        <h2>Завдання 2</h2>
+        <button onclick="secondTask()">Запустити друге завдання</button>
+        <p id="task2"></p>
+    </div>
+
+    <div>
+        <h2>Завдання 3</h2>
+        <button onclick="thirdTask()">Запустити третє завдання</button>
+        <p id="task3"></p>
+    </div>
+
+    <script>
+        function firstTask() {
+            var userName = "Анна";
+            
+            if (true) {
+                var userName = prompt("Введіть інше ім'я", "Дмитро");
+                document.getElementById("task1").innerHTML = "Всередині блоку: " + userName;
+            }
+            
+            document.getElementById("task1").innerHTML += "<br>Зовні блоку: " + userName;
+        }
+
+        function secondTask() {
+            let name = prompt("Як вас звати?");
+            let age = prompt("Скільки вам років?");
+            
+            let message = "Hello, " + name + "! Your age is " + age + ". Continue?";
+            let answer = confirm(message);
+            
+            if (answer) {
+                alert("Welcome!");
+                document.getElementById("task2").innerHTML = "Користувач обрав Welcome";
+            } else {
+                alert("Goodbye!");
+                document.getElementById("task2").innerHTML = "Користувач обрав Goodbye";
+            }
+        }
+
+        function thirdTask() {
+            let number = prompt("Введіть число");
+            number = Number(number);
+            
+            if (number % 2 === 0) {
+                alert("Number is even");
+                document.getElementById("task3").innerHTML = "Число " + number + " - парне";
+            } else {
+                alert("Number is odd");
+                document.getElementById("task3").innerHTML = "Число " + number + " - непарне";
+            }
+        }
+    </script>
+</body>
+</html>
