@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Лр3</title>
+</head>
+<body>
+    <h1>Функції в JavaScript</h1>
+
+    <div>
+        <h2>Таймер з колбеком</h2>
+        <button onclick="test1()">Таймер (3 сек)</button>
+        <button onclick="test1Custom()">Свій таймер</button>
+        <p id="r1"></p>
+    </div>
+
+    <div>
+        <h2>Калькулятор</h2>
+        <button onclick="calc()">Калькулятор</button>
+        <p id="r2"></p>
+    </div>
+
+    <div>
+        <h2>Лічильник кліків</h2>
+        <button onclick="startCounter()">Почати</button>
+        <button onclick="counter()">Клікнути</button>
+        <p id="r3"></p>
+    </div>
+
+    <script>
+        const timer = (msg, sec, cb) => {
+            setTimeout(() => {
+                document.getElementById('r1').innerHTML = msg;
+                cb();
+            }, sec * 1000);
+        };
+
+        function test1() {
+            timer('Привіт!', 3, () => alert('Час вийшов!'));
+            document.getElementById('r1').innerHTML = 'Таймер на 3 сек...';
+        }
+
+        function test1Custom() {
+            const m = prompt('Повідомлення:', 'Привіт');
+            const s = prompt('Секунди:', '2');
+            if (m && s) {
+                timer(m, parseInt(s), () => alert('Час вийшов!'));
+                document.getElementById('r1').innerHTML = `Таймер на ${s} сек...`;
+            }
+        }
+
+        const calc = (a, b, op) => {
+            if (op === '+') return a + b;
+            if (op === '-') return a - b;
+            if (op === '*') return a * b;
+            if (op === '/') return b !== 0 ? a / b : 'Помилка';
+            return 'Невірна операція';
+        };
+
+        function showCalc() {
+            const a = parseFloat(prompt('Перше число:'));
+            const b = parseFloat(prompt('Друге число:'));
+            const op = prompt('Операція (+, -, *, /):');
+            
+            if (isNaN(a) || isNaN(b)) {
+                alert('Не числа!');
+                return;
+            }
+            
+            const res = calc(a, b, op);
+            alert(`${a} ${op} ${b} = ${res}`);
+            document.getElementById('r2').innerHTML = `${a} ${op} ${b} = ${res}`;
+        }
+
+        const createCounter = () => {
+            let c = 0;
+            return () => {
+                c++;
+                document.getElementById('r3').innerHTML = `Кліків: ${c}`;
+                return c;
+            };
+        };
+
+        const counter = createCounter();
+
+        function startCounter() {
+            document.getElementById('r3').innerHTML = 'Натискайте кнопку';
+        }
+    </script>
+</body>
+</html>
