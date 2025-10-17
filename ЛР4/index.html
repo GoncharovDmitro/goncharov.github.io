@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота - Робота з об'єктами та масивами</title>
+</head>
+<body>
+    <h1>Лабораторна робота</h1>
+    <h2>Тема: Робота з об'єктами та масивами в JavaScript</h2>
+
+    <!-- Завдання 1 -->
+    <div style="border: 1px solid black; padding: 15px; margin: 10px 0;">
+        <h3>Завдання 1: Робота з об'єктами</h3>
+        <button onclick="task1()">Виконати завдання 1</button>
+        <div id="result1" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- Завдання 2 -->
+    <div style="border: 1px solid black; padding: 15px; margin: 10px 0;">
+        <h3>Завдання 2: Робота з масивами та об'єктами</h3>
+        <button onclick="task2()">Виконати завдання 2</button>
+        <div id="result2" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- Завдання 3 -->
+    <div style="border: 1px solid black; padding: 15px; margin: 10px 0;">
+        <h3>Завдання 3: Робота з методами масивів</h3>
+        <button onclick="task3()">Виконати завдання 3</button>
+        <div id="result3" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- Завдання 4 -->
+    <div style="border: 1px solid black; padding: 15px; margin: 10px 0;">
+        <h3>Завдання 4: Взаємодія з користувачем</h3>
+        <button onclick="task4()">Додати нову книгу</button>
+        <div id="result4" style="margin-top: 10px;"></div>
+    </div>
+
+    <!-- Індивідуальне завдання -->
+    <div style="border: 1px solid black; padding: 15px; margin: 10px 0;">
+        <h3>Індивідуальне завдання</h3>
+        <button onclick="individualTask()">Виконати індивідуальне завдання</button>
+        <div id="result5" style="margin-top: 10px;"></div>
+    </div>
+
+    <script>
+        // Глобальний масив бібліотеки
+        let library = [
+            { 
+                title: "Гаррі Поттер і філософський камінь", 
+                author: "Дж. К. Роулінг", 
+                year: 1997, 
+                isRead: true,
+                bookInfo: function() {
+                    return `Назва: ${this.title}, Автор: ${this.author}, Рік видання: ${this.year}, Прочитана: ${this.isRead ? "Так" : "Ні"}`;
+                },
+                markAsRead: function() {
+                    this.isRead = true;
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            },
+            { 
+                title: "Гобіт", 
+                author: "Дж. Р. Р. Толкін", 
+                year: 1937, 
+                isRead: false,
+                bookInfo: function() {
+                    return `Назва: ${this.title}, Автор: ${this.author}, Рік видання: ${this.year}, Прочитана: ${this.isRead ? "Так" : "Ні"}`;
+                },
+                markAsRead: function() {
+                    this.isRead = true;
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            },
+            { 
+                title: "1984", 
+                author: "Джордж Орвелл", 
+                year: 1949, 
+                isRead: true,
+                bookInfo: function() {
+                    return `Назва: ${this.title}, Автор: ${this.author}, Рік видання: ${this.year}, Прочитана: ${this.isRead ? "Так" : "Ні"}`;
+                },
+                markAsRead: function() {
+                    this.isRead = true;
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            }
+        ];
+
+        // Завдання 1
+        function task1() {
+            let result = "<h4>1.1 Створення об'єкта book:</h4>";
+            
+            // Створення об'єкта book
+            let book = {
+                title: "Гаррі Поттер і філософський камінь",
+                author: "Дж. К. Роулінг",
+                year: 1997,
+                isRead: true,
+                bookInfo: function() {
+                    return `Назва: ${this.title}, Автор: ${this.author}, Рік видання: ${this.year}, Прочитана: ${this.isRead ? "Так" : "Ні"}`;
+                }
+            };
+            
+            result += `<div style="background: #f0f0f0; padding: 10px; margin: 5px 0;">${book.bookInfo()}</div>`;
+            
+            result += "<h4>1.2 Зміна статусу прочитання:</h4>";
+            book.isRead = !book.isRead;
+            result += `<div style="background: #f0f0f0; padding: 10px; margin: 5px 0;">${book.bookInfo()}</div>`;
+            
+            document.getElementById('result1').innerHTML = result;
+        }
+
+        // Завдання 2
+        function task2() {
+            let result = "<h4>2.1 Початкова бібліотека:</h4>";
+            
+            // Відображення початкової бібліотеки
+            library.forEach((book, index) => {
+                result += `<div style="background: #f0f0f0; padding: 10px; margin: 5px 0;">${index + 1}. ${book.bookInfo()}</div>`;
+            });
+            
+            result += "<h4>2.2 Додавання нової книги:</h4>";
+            
+            // Додавання нової книги
+            let newBook = {
+                title: "Великий Гетсбі",
+                author: "Френсіс Скотт Фіцджеральд",
+                year: 1925,
+                isRead: false,
+                bookInfo: function() {
+                    return `Назва: ${this.title}, Автор: ${this.author}, Рік видання: ${this.year}, Прочитана: ${this.isRead ? "Так" : "Ні"}`;
+                },
+                markAsRead: function() {
+                    this.isRead = true;
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            };
+            
+            library.push(newBook);
+            result += `<div style="background: #e0ffe0; padding: 10px; margin: 5px 0;">Додано: ${newBook.bookInfo()}</div>`;
+            
+            result += "<h4>2.3 Оновлена бібліотека:</h4>";
+            library.forEach((book, index) => {
+                result += `<div style="background: #f0f0f0; padding: 10px; margin: 5px 0;">${index + 1}. ${book.bookInfo()}</div>`;
+            });
+            
+            document.getElementById('result2').innerHTML = result;
+        }
+
+        // Завдання 3
+        function task3() {
+            let result = "<h4>3.1 Сортування за роком видання:</h4>";
+            
+            // Сортування за роком
+            let sortedLibrary = [...library].sort((a, b) => a.year - b.year);
+            sortedLibrary.forEach((book, index) => {
+                result += `<div style="background: #f0f0f0; padding: 10px; margin: 5px 0;">${index + 1}. ${book.bookInfo()}</div>`;
+            });
+            
+            result += "<h4>3.2 Непрочитані книги:</h4>";
+            
+            // Фільтрація непрочитаних книг
+            let unreadBooks = library.filter(book => !book.isRead);
+            if (unreadBooks.length === 0) {
+                result += "<div style='background: #fff0f0; padding: 10px; margin: 5px 0;'>Непрочитаних книг немає</div>";
+            } else {
+                unreadBooks.forEach((book, index) => {
+                    result += `<div style="background: #fff0f0; padding: 10px; margin: 5px 0;">${index + 1}. ${book.bookInfo()}</div>`;
+                });
+            }
+            
+            result += "<h4>3.3 Пошук книги Толкіна:</h4>";
+            
+            // Пошук книги Толкіна
+            let tolkienBook = library.find(book => book.author.includes("Толкін"));
+            if (tolkienBook) {
+                result += `<div style="background: #f0f0ff; padding: 10px; margin: 5px 0;">${tolkienBook.bookInfo()}</div>`;
+            } else {
+                result += "<div style='background: #fff0f0; padding: 10px; margin: 5px 0;'>Книгу Толкіна не знайдено</div>";
+            }
+            
+            document.getElementById('result3').innerHTML = result;
+        }
+
+        // Завдання 4
+        function task4() {
+            let title = prompt("Введіть назву книги:");
+            if (!title) return;
+            
+            let author = prompt("Введіть автора книги:");
+            if (!author) return;
+            
+            let year = prompt("Введіть рік видання книги:");
+            if (!year) return;
+            
+            let isRead = confirm("Чи прочитана книга? (OK - Так, Cancel - Ні)");
+            
+            let newBook = {
+                title: title,
+                author: author,
+                year: parseInt(year),
+                isRead: isRead,
+                bookInfo: function() {
+                    return `Назва: ${this.title}, Автор: ${this.author}, Рік видання: ${this.year}, Прочитана: ${this.isRead ? "Так" : "Ні"}`;
+                },
+                markAsRead: function() {
+                    this.isRead = true;
+                    return `Книгу "${this.title}" позначено як прочитану`;
+                }
+            };
+            
+            library.push(newBook);
+            
+            let result = "<h4>Додано нову книгу:</h4>";
+            result += `<div style="background: #e0ffe0; padding: 10px; margin: 5px 0;">${newBook.bookInfo()}</div>`;
+            
+            result += "<h4>Оновлена бібліотека:</h4>";
+            library.forEach((book, index) => {
+                result += `<div style="background: #f0f0f0; padding: 10px; margin: 5px 0;">${index + 1}. ${book.bookInfo()}</div>`;
+            });
+            
+            document.getElementById('result4').innerHTML = result;
+        }
+
+        // Індивідуальне завдання
+        function individualTask() {
+            let result = "<h4>Метод markAsRead:</h4>";
+            
+            // Демонстрація методу markAsRead
+            let firstUnreadBook = library.find(book => !book.isRead);
+            if (firstUnreadBook) {
+                result += `<div style="background: #fff0f0; padding: 10px; margin: 5px 0;">До: ${firstUnreadBook.bookInfo()}</div>`;
+                result += `<div style="background: #e0ffe0; padding: 10px; margin: 5px 0;">${firstUnreadBook.markAsRead()}</div>`;
+                result += `<div style="background: #f0fff0; padding: 10px; margin: 5px 0;">Після: ${firstUnreadBook.bookInfo()}</div>`;
+            }
+            
+            result += "<h4>Середній рік видання:</h4>";
+            
+            // Функція для обчислення середнього року
+            function calculateAverageYear() {
+                if (library.length === 0) return 0;
+                let totalYears = library.reduce((sum, book) => sum + book.year, 0);
+                return (totalYears / library.length).toFixed(1);
+            }
+            
+            let averageYear = calculateAverageYear();
+            result += `<div style="background: #f0f0ff; padding: 10px; margin: 5px 0;">Середній рік видання: ${averageYear}</div>`;
+            
+            result += "<h4>Статистика бібліотеки:</h4>";
+            result += `<div style="background: #f8f8f8; padding: 10px; margin: 5px 0;">
+                Всього книг: ${library.length}<br>
+                Прочитаних: ${library.filter(book => book.isRead).length}<br>
+                Непрочитаних: ${library.filter(book => !book.isRead).length}
+            </div>`;
+            
+            document.getElementById('result5').innerHTML = result;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Робота з масивами об'єктів</title>
+</head>
+<body>
+    <h1>Практична робота - Робота з масивами об'єктів</h1>
+
+    <!-- Завдання 1 -->
+    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+        <h2>1. Фільтрація та пошук товарів</h2>
+        <div>
+            <button onclick="showAvailableProducts()">Показати доступні товари</button>
+            <input type="text" id="productName" placeholder="Введіть назву товару" style="padding: 5px; margin: 0 10px;">
+            <button onclick="findProduct()">Знайти товар</button>
+        </div>
+        <div id="result1" style="margin-top: 10px; padding: 10px; background: #f5f5f5;"></div>
+    </div>
+
+    <!-- Завдання 2 -->
+    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+        <h2>2. Групування та сортування студентів</h2>
+        <div>
+            <button onclick="showGroupedStudents()">Групувати студентів</button>
+            <button onclick="showSortedStudents()">Сортувати за оцінками</button>
+        </div>
+        <div id="result2" style="margin-top: 10px; padding: 10px; background: #f5f5f5;"></div>
+    </div>
+
+    <!-- Завдання 3 -->
+    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+        <h2>3. Статистика працівників</h2>
+        <div>
+            <button onclick="showAverageSalary()">Середня зарплата</button>
+            <button onclick="showMostExperienced()">Найдосвідченіший працівник</button>
+        </div>
+        <div id="result3" style="margin-top: 10px; padding: 10px; background: #f5f5f5;"></div>
+    </div>
+
+    <!-- Завдання 4 -->
+    <div style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+        <h2>4. Аналіз книг</h2>
+        <div>
+            <button onclick="showUnreadBooks()">Непрочитані книги</button>
+            <input type="text" id="authorName" placeholder="Введіть автора" style="padding: 5px; margin: 0 10px;">
+            <button onclick="showBooksByAuthor()">Книги автора</button>
+            <button onclick="showTopRatedBooks()">Топ книги</button>
+        </div>
+        <div id="result4" style="margin-top: 10px; padding: 10px; background: #f5f5f5;"></div>
+    </div>
+
+    <script>
+        // Завдання 1 - Товари
+        const products = [
+            { name: "Ноутбук", category: "Електроніка", price: 25000, inStock: 5 },
+            { name: "Мишка", category: "Електроніка", price: 500, inStock: 0 },
+            { name: "Книга", category: "Книги", price: 300, inStock: 10 },
+            { name: "Стілець", category: "Меблі", price: 1500, inStock: 2 },
+            { name: "Телефон", category: "Електроніка", price: 15000, inStock: 0 }
+        ];
+
+        function getAvailableProducts() {
+            return products.filter(product => product.inStock > 0);
+        }
+
+        function findProductByName(productName) {
+            const foundProduct = products.find(product => 
+                product.name.toLowerCase() === productName.toLowerCase());
+            return foundProduct || "Товар не знайдено";
+        }
+
+        // Завдання 2 - Студенти
+        const students = [
+            { name: "Іван", age: 20, grade: 85, group: "A" },
+            { name: "Марія", age: 19, grade: 92, group: "B" },
+            { name: "Петро", age: 21, grade: 78, group: "A" },
+            { name: "Олена", age: 20, grade: 95, group: "C" },
+            { name: "Андрій", age: 22, grade: 88, group: "B" }
+        ];
+
+        function groupBy(studentsArray) {
+            return studentsArray.reduce((groups, student) => {
+                if (!groups[student.group]) {
+                    groups[student.group] = [];
+                }
+                groups[student.group].push(student);
+                return groups;
+            }, {});
+        }
+
+        function sortStudentsByGrade(studentsArray) {
+            return [...studentsArray].sort((a, b) => b.grade - a.grade);
+        }
+
+        // Завдання 3 - Працівники
+        const employees = [
+            { name: "Олександр", position: "Менеджер", salary: 30000, years: 5 },
+            { name: "Наталія", position: "Розробник", salary: 40000, years: 3 },
+            { name: "Віктор", position: "Дизайнер", salary: 25000, years: 7 },
+            { name: "Ірина", position: "Аналітик", salary: 35000, years: 2 }
+        ];
+
+        function getAverageSalary() {
+            const totalSalary = employees.reduce((sum, employee) => sum + employee.salary, 0);
+            return totalSalary / employees.length;
+        }
+
+        function findMostExperiencedEmployee() {
+            return employees.reduce((mostExp, employee) => 
+                employee.years > mostExp.years ? employee : mostExp);
+        }
+
+        // Завдання 4 - Книги
+        const books = [
+            { title: "Гаррі Поттер", author: "Дж. К. Роулінг", year: 1997, rating: 4.8, isRead: true },
+            { title: "Володар перснів", author: "Дж. Р. Р. Толкін", year: 1954, rating: 4.9, isRead: false },
+            { title: "1984", author: "Джордж Орвелл", year: 1949, rating: 4.7, isRead: true },
+            { title: "Майстер і Маргарита", author: "Михайло Булгаков", year: 1967, rating: 4.5, isRead: false },
+            { title: "Гобіт", author: "Дж. Р. Р. Толкін", year: 1937, rating: 4.6, isRead: true }
+        ];
+
+        function getUnreadBooks() {
+            return books.filter(book => !book.isRead).map(book => book.title);
+        }
+
+        function getBooksByAuthor(authorName) {
+            return books
+                .filter(book => book.author.toLowerCase().includes(authorName.toLowerCase()))
+                .sort((a, b) => a.year - b.year);
+        }
+
+        function getTopRatedBooks() {
+            return books
+                .filter(book => book.rating > 4)
+                .sort((a, b) => b.rating - a.rating);
+        }
+
+        // Функції для відображення результатів
+        function showAvailableProducts() {
+            const availableProducts = getAvailableProducts();
+            let html = '<h3>Доступні товари:</h3>';
+            availableProducts.forEach(product => {
+                html += `
+                    <div style="border: 1px solid #ddd; padding: 10px; margin: 5px 0;">
+                        <strong>${product.name}</strong><br>
+                        Категорія: ${product.category}<br>
+                        Ціна: ${product.price} грн<br>
+                        В наявності: ${product.inStock} шт
+                    </div>
+                `;
+            });
+            document.getElementById('result1').innerHTML = html;
+        }
+
+        function findProduct() {
+            const productName = document.getElementById('productName').value;
+            const product = findProductByName(productName);
+            let html = '';
+            
+            if (typeof product === 'string') {
+                html = `<div style="color: red;">${product}</div>`;
+            } else {
+                html = `
+                    <h3>Знайдений товар:</h3>
+                    <div style="border: 1px solid #ddd; padding: 10px;">
+                        <strong>${product.name}</strong><br>
+                        Категорія: ${product.category}<br>
+                        Ціна: ${product.price} грн<br>
+                        В наявності: ${product.inStock} шт
+                    </div>
+                `;
+            }
+            document.getElementById('result1').innerHTML = html;
+        }
+
+        function showGroupedStudents() {
+            const grouped = groupBy(students);
+            let html = '<h3>Студенти за групами:</h3>';
+            
+            for (const group in grouped) {
+                html += `<h4>Група ${group}:</h4>`;
+                grouped[group].forEach(student => {
+                    html += `
+                        <div style="border: 1px solid #ddd; padding: 8px; margin: 3px 0;">
+                            ${student.name}, ${student.age} років, оцінка: ${student.grade}
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('result2').innerHTML = html;
+        }
+
+        function showSortedStudents() {
+            const sorted = sortStudentsByGrade(students);
+            let html = '<h3>Студенти за оцінками (спадання):</h3>';
+            
+            sorted.forEach(student => {
+                html += `
+                    <div style="border: 1px solid #ddd; padding: 8px; margin: 3px 0;">
+                        ${student.name}, ${student.age} років, оцінка: ${student.grade}, група: ${student.group}
+                    </div>
+                `;
+            });
+            document.getElementById('result2').innerHTML = html;
+        }
+
+        function showAverageSalary() {
+            const average = getAverageSalary();
+            document.getElementById('result3').innerHTML = `
+                <h3>Середня зарплата:</h3>
+                <div style="font-size: 18px; font-weight: bold; color: green;">
+                    ${average.toFixed(2)} грн
+                </div>
+            `;
+        }
+
+        function showMostExperienced() {
+            const mostExp = findMostExperiencedEmployee();
+            document.getElementById('result3').innerHTML = `
+                <h3>Найдосвідченіший працівник:</h3>
+                <div style="border: 1px solid #ddd; padding: 10px;">
+                    <strong>${mostExp.name}</strong><br>
+                    Посада: ${mostExp.position}<br>
+                    Зарплата: ${mostExp.salary} грн<br>
+                    Досвід: ${mostExp.years} років
+                </div>
+            `;
+        }
+
+        function showUnreadBooks() {
+            const unread = getUnreadBooks();
+            let html = '<h3>Непрочитані книги:</h3>';
+            
+            if (unread.length === 0) {
+                html += '<div>Всі книги прочитані!</div>';
+            } else {
+                unread.forEach(book => {
+                    html += `<div style="border: 1px solid #ddd; padding: 8px; margin: 3px 0;">${book}</div>`;
+                });
+            }
+            document.getElementById('result4').innerHTML = html;
+        }
+
+        function showBooksByAuthor() {
+            const authorName = document.getElementById('authorName').value;
+            const booksByAuthor = getBooksByAuthor(authorName);
+            let html = `<h3>Книги автора "${authorName}":</h3>`;
+            
+            if (booksByAuthor.length === 0) {
+                html += '<div>Книги цього автора не знайдено</div>';
+            } else {
+                booksByAuthor.forEach(book => {
+                    html += `
+                        <div style="border: 1px solid #ddd; padding: 8px; margin: 3px 0;">
+                            <strong>${book.title}</strong> (${book.year})<br>
+                            Рейтинг: ${book.rating}/5
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('result4').innerHTML = html;
+        }
+
+        function showTopRatedBooks() {
+            const topBooks = getTopRatedBooks();
+            let html = '<h3>Книги з рейтингом вище 4:</h3>';
+            
+            topBooks.forEach(book => {
+                html += `
+                    <div style="border: 1px solid #ddd; padding: 8px; margin: 3px 0;">
+                        <strong>${book.title}</strong><br>
+                        Автор: ${book.author}<br>
+                        Рік: ${book.year}<br>
+                        Рейтинг: ${book.rating}/5
+                    </div>
+                `;
+            });
+            document.getElementById('result4').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
