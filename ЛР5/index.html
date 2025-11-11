@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота №7    - Варіант 19</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .task {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input, button {
+            margin: 5px;
+            padding: 8px;
+        }
+        .temperature-container {
+            display: flex;
+            gap: 20px;
+        }
+        .temperature-input {
+            display: flex;
+            flex-direction: column;
+        }
+        .multiplication-test {
+            margin-top: 10px;
+        }
+        .radio-options {
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+        }
+        .photo-rotator {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .photo-rotator img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+        }
+        .navigation {
+            margin: 10px 0;
+        }
+        .captcha-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .captcha-display {
+            display: flex;
+            margin: 10px 0;
+        }
+        .captcha-pixel {
+            width: 20px;
+            height: 20px;
+            margin: 2px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Лабораторна робота №7</h1>
+    <h2>Варіант 19 - Дерева</h2>
+
+    <!-- Завдання 1: Конвертер температури -->
+    <div class="task" id="task1">
+        <h3>Завдання 1: Конвертер температури</h3>
+        <div class="temperature-container">
+            <div class="temperature-input">
+                <label for="fahrenheit">Температура за Фаренгейтом:</label>
+                <input type="number" id="fahrenheit" placeholder="Введіть температуру">
+            </div>
+            <div class="temperature-input">
+                <label for="celsius">Температура за Цельсієм:</label>
+                <input type="number" id="celsius" placeholder="Введіть температуру">
+            </div>
+        </div>
+    </div>
+
+    <!-- Завдання 2: Перевірка таблиці множення -->
+    <div class="task" id="task2">
+        <h3>Завдання 2: Перевірка таблиці множення</h3>
+        <div id="score2" class="score">Загальний рахунок: 0% (0 правильних відповідей з 0)</div>
+        <button id="nextTask2">Наступне завдання</button>
+        <div id="taskDisplay2" class="multiplication-test"></div>
+        <input type="number" id="answer2" placeholder="Введіть відповідь">
+        <button id="check2">Перевірити</button>
+        <div id="result2" class="result"></div>
+    </div>
+
+    <!-- Завдання 3: Перевірка таблиці множення з радіокнопками -->
+    <div class="task" id="task3">
+        <h3>Завдання 3: Перевірка таблиці множення з радіокнопками</h3>
+        <div id="score3" class="score">Загальний рахунок: 0% (0 правильних відповідей з 0)</div>
+        <div id="taskDisplay3" class="multiplication-test"></div>
+        <div id="options3" class="radio-options"></div>
+        <div id="result3" class="result"></div>
+    </div>
+
+    <!-- Завдання 4: Ротатор фотографій -->
+    <div class="task" id="task4">
+        <h3>Завдання 4: Ротатор фотографій (Дерева)</h3>
+        <div id="rotator" class="photo-rotator">
+            <!-- Ротатор буде додано через JavaScript -->
+        </div>
+    </div>
+
+    <!-- Завдання 5: CAPTCHA -->
+    <div class="task" id="task5">
+        <h3>Завдання 5: CAPTCHA</h3>
+        <div class="captcha-container">
+            <div id="captchaDisplay" class="captcha-display"></div>
+            <input type="text" id="captchaInput" placeholder="Введіть число з CAPTCHA">
+            <button id="checkCaptcha">Перевірити</button>
+            <div id="captchaResult" class="result"></div>
+            <button id="refreshCaptcha">Оновити CAPTCHA</button>
+        </div>
+    </div>
+
+    <script>
+        // Завдання 1: Конвертер температури
+        const fahrenheitInput = document.getElementById('fahrenheit');
+        const celsiusInput = document.getElementById('celsius');
+
+        fahrenheitInput.addEventListener('input', function() {
+            if (fahrenheitInput.value !== '') {
+                const fahrenheit = parseFloat(fahrenheitInput.value);
+                const celsius = (5/9) * (fahrenheit - 32);
+                celsiusInput.value = celsius.toFixed(2);
+            } else {
+                celsiusInput.value = '';
+            }
+        });
+
+        celsiusInput.addEventListener('input', function() {
+            if (celsiusInput.value !== '') {
+                const celsius = parseFloat(celsiusInput.value);
+                const fahrenheit = (celsius * 9/5) + 32;
+                fahrenheitInput.value = fahrenheit.toFixed(2);
+            } else {
+                fahrenheitInput.value = '';
+            }
+        });
+
+        // Завдання 2: Перевірка таблиці множення
+        const scoreDisplay2 = document.getElementById('score2');
+        const nextTaskButton2 = document.getElementById('nextTask2');
+        const taskDisplay2 = document.getElementById('taskDisplay2');
+        const answerInput2 = document.getElementById('answer2');
+        const checkButton2 = document.getElementById('check2');
+        const resultDisplay2 = document.getElementById('result2');
+
+        let correctAnswers2 = 0;
+        let totalQuestions2 = 0;
+        let currentTask2 = null;
+
+        function generateTask2() {
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 10) + 1;
+            currentTask2 = { a, b, answer: a * b };
+            taskDisplay2.textContent = `${a} × ${b} = `;
+            answerInput2.value = '';
+            resultDisplay2.textContent = '';
+            answerInput2.disabled = false;
+            checkButton2.disabled = false;
+        }
+
+        function updateScore2() {
+            const percentage = totalQuestions2 > 0 ? Math.round((correctAnswers2 / totalQuestions2) * 100) : 0;
+            scoreDisplay2.textContent = `Загальний рахунок: ${percentage}% (${correctAnswers2} правильних відповідей з ${totalQuestions2})`;
+        }
+
+        function checkAnswer2() {
+            const userAnswer = parseInt(answerInput2.value);
+            if (isNaN(userAnswer)) {
+                resultDisplay2.textContent = 'Будь ласка, введіть число';
+                resultDisplay2.className = 'result incorrect';
+                return;
+            }
+
+            totalQuestions2++;
+            if (userAnswer === currentTask2.answer) {
+                correctAnswers2++;
+                resultDisplay2.textContent = 'Правильно!';
+                resultDisplay2.className = 'result correct';
+            } else {
+                resultDisplay2.textContent = `Помилка, правильна відповідь «${currentTask2.answer}»`;
+                resultDisplay2.className = 'result incorrect';
+            }
+            
+            updateScore2();
+            answerInput2.disabled = true;
+            checkButton2.disabled = true;
+        }
+
+        nextTaskButton2.addEventListener('click', generateTask2);
+        checkButton2.addEventListener('click', checkAnswer2);
+
+        // Початкова генерація завдання
+        generateTask2();
+
+        // Завдання 3: Перевірка таблиці множення з радіокнопками
+        const scoreDisplay3 = document.getElementById('score3');
+        const taskDisplay3 = document.getElementById('taskDisplay3');
+        const optionsContainer3 = document.getElementById('options3');
+        const resultDisplay3 = document.getElementById('result3');
+
+        let correctAnswers3 = 0;
+        let totalQuestions3 = 0;
+        let currentTask3 = null;
+
+        function generateTask3() {
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 10) + 1;
+            const correctAnswer = a * b;
+            
+            // Генеруємо варіанти відповідей
+            const options = new Set([correctAnswer]);
+            while (options.size < 4) {
+                const wrongAnswer = Math.floor(Math.random() * 100) + 1;
+                options.add(wrongAnswer);
+            }
+            
+            // Перетворюємо на масив і перемішуємо
+            const optionsArray = Array.from(options);
+            for (let i = optionsArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [optionsArray[i], optionsArray[j]] = [optionsArray[j], optionsArray[i]];
+            }
+            
+            currentTask3 = { a, b, answer: correctAnswer, options: optionsArray };
+            taskDisplay3.textContent = `${a} × ${b} = ?`;
+            
+            // Очищаємо контейнер з варіантами
+            optionsContainer3.innerHTML = '';
+            
+            // Додаємо радіокнопки
+            optionsArray.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'multiplicationOption';
+                radio.value = option;
+                radio.id = `option${index}`;
+                
+                const label = document.createElement('label');
+                label.htmlFor = `option${index}`;
+                label.textContent = option;
+                
+                optionDiv.appendChild(radio);
+                optionDiv.appendChild(label);
+                optionsContainer3.appendChild(optionDiv);
+                
+                // Додаємо обробник події
+                radio.addEventListener('change', function() {
+                    checkAnswer3(option);
+                });
+            });
+            
+            resultDisplay3.textContent = '';
+        }
+
+        function checkAnswer3(selectedAnswer) {
+            totalQuestions3++;
+            if (parseInt(selectedAnswer) === currentTask3.answer) {
+                correctAnswers3++;
+                resultDisplay3.textContent = 'Правильно!';
+                resultDisplay3.className = 'result correct';
+            } else {
+                resultDisplay3.textContent = `Помилка, правильна відповідь «${currentTask3.answer}»`;
+                resultDisplay3.className = 'result incorrect';
+            }
+            
+            updateScore3();
+            
+            // Блокуємо подальший вибір
+            const radios = document.querySelectorAll('input[name="multiplicationOption"]');
+            radios.forEach(radio => radio.disabled = true);
+            
+            // Генеруємо нове завдання через 2 секунди
+            setTimeout(generateTask3, 2000);
+        }
+
+        function updateScore3() {
+            const percentage = totalQuestions3 > 0 ? Math.round((correctAnswers3 / totalQuestions3) * 100) : 0;
+            scoreDisplay3.textContent = `Загальний рахунок: ${percentage}% (${correctAnswers3} правильних відповідей з ${totalQuestions3})`;
+        }
+
+        // Початкова генерація завдання
+        generateTask3();
+
+        // Завдання 4: Ротатор фотографій (Дерева)
+        const imagesArray = [
+            {
+                path: 'https://images.unsplash.com/photo-1519834785169-98be25ec3f84?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                title: 'Дуб',
+                description: 'Могутнє дерево з міцною деревиною'
+            },
+            {
+                path: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                title: 'Береза',
+                description: 'Стовбури білого кольору з чорними цяточками'
+            },
+            {
+                path: 'https://images.unsplash.com/photo-1462143338528-eca9936a4d09?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                title: 'Ялина',
+                description: 'Вічнозелене дерево з голками замість листя'
+            },
+            {
+                path: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                title: 'Клен',
+                description: 'Дерево з характерними пальчастими листям'
+            },
+            {
+                path: 'https://images.unsplash.com/photo-1542272201-b1ca555ef850?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                title: 'Верба',
+                description: 'Дерево з гнучкими пагонами, що росте біля води'
+            }
+        ];
+
+        function initPhotoRotator(containerId, images) {
+            const container = document.getElementById(containerId);
+            
+            // Створюємо елементи
+            const photoCounter = document.createElement('div');
+            photoCounter.className = 'photo-counter';
+            
+            const imageElement = document.createElement('img');
+            imageElement.alt = 'Фотографія дерева';
+            
+            const titleElement = document.createElement('h3');
+            const descriptionElement = document.createElement('p');
+            
+            const navigationDiv = document.createElement('div');
+            navigationDiv.className = 'navigation';
+            
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Назад';
+            prevButton.id = 'prevButton';
+            
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Вперед';
+            nextButton.id = 'nextButton';
+            
+            // Додаємо елементи до контейнера
+            navigationDiv.appendChild(prevButton);
+            navigationDiv.appendChild(nextButton);
+            
+            container.appendChild(photoCounter);
+            container.appendChild(imageElement);
+            container.appendChild(navigationDiv);
+            container.appendChild(titleElement);
+            container.appendChild(descriptionElement);
+            
+            let currentIndex = 0;
+            
+            function updatePhoto() {
+                const currentImage = images[currentIndex];
+                
+                imageElement.src = currentImage.path;
+                titleElement.textContent = currentImage.title;
+                descriptionElement.textContent = currentImage.description;
+                photoCounter.textContent = `Фотографія ${currentIndex + 1} з ${images.length}`;
+                
+                // Приховуємо/показуємо кнопки навігації
+                prevButton.style.display = currentIndex === 0 ? 'none' : 'inline-block';
+                nextButton.style.display = currentIndex === images.length - 1 ? 'none' : 'inline-block';
+            }
+            
+            // Обробники подій для кнопок
+            prevButton.addEventListener('click', function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updatePhoto();
+                }
+            });
+            
+            nextButton.addEventListener('click', function() {
+                if (currentIndex < images.length - 1) {
+                    currentIndex++;
+                    updatePhoto();
+                }
+            });
+            
+            // Початкове оновлення
+            updatePhoto();
+        }
+
+        // Ініціалізація ротатора
+        initPhotoRotator('rotator', imagesArray);
+
+        // Завдання 5: CAPTCHA
+        const captchaDisplay = document.getElementById('captchaDisplay');
+        const captchaInput = document.getElementById('captchaInput');
+        const checkCaptchaButton = document.getElementById('checkCaptcha');
+        const captchaResult = document.getElementById('captchaResult');
+        const refreshCaptchaButton = document.getElementById('refreshCaptcha');
+
+        let currentCaptcha = '';
+
+        function generateCaptcha(length = 6) {
+            currentCaptcha = '';
+            captchaDisplay.innerHTML = '';
+            
+            // Генеруємо випадкове число з заданою кількістю цифр
+            for (let i = 0; i < length; i++) {
+                currentCaptcha += Math.floor(Math.random() * 10).toString();
+            }
+            
+            // Відображаємо CAPTCHA у вигляді "пікселів"
+            for (let i = 0; i < currentCaptcha.length; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'captcha-pixel';
+                pixel.textContent = currentCaptcha[i];
+                captchaDisplay.appendChild(pixel);
+            }
+            
+            captchaInput.value = '';
+            captchaResult.textContent = '';
+        }
+
+        function checkCaptcha() {
+            const userInput = captchaInput.value;
+            
+            if (userInput === currentCaptcha) {
+                captchaResult.textContent = 'Правильно!';
+                captchaResult.className = 'result correct';
+            } else {
+                captchaResult.textContent = 'Неправильно! Спробуйте ще раз.';
+                captchaResult.className = 'result incorrect';
+            }
+        }
+
+        checkCaptchaButton.addEventListener('click', checkCaptcha);
+        refreshCaptchaButton.addEventListener('click', () => generateCaptcha(6));
+
+        // Початкова генерація CAPTCHA
+        generateCaptcha(6);
+    </script>
+</body>
+</html>
