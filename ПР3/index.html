@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Індивідуальні завдання - Об'єкт Date</title>
+    <style>
+        /* Трохи стилів для кращої читабельності */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        h3 {
+            color: #007bff;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        code {
+            background-color: #e8e8e8;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Результати виконання індивідуальних завдань</h1>
+
+    <script>
+        // --- Завдання 1 ---
+        document.write('<h3>Завдання №1</h3>');
+
+        /**
+         * Пояснення:
+         * Ми створюємо новий об'єкт Date.
+         * Конструктор Date приймає аргументи у форматі:
+         * (рік, місяць, день, година, хвилина, секунда)
+         * ВАЖЛИВО: Місяці у JavaScript нумеруються з 0 (січень) до 11 (грудень).
+         * Тому для "20 лютого" ми вказуємо місяць 1.
+         * "3:12 ранку" - це година 3, хвилина 12.
+         */
+        let date1 = new Date(2021, 0, 20, 3, 12); // 20 січня 2021, 3:12
+        document.write('<p>Створена дата: <strong>' + date1.toString() + '</strong></p>');
+
+        // --- Завдання 2 ---
+        document.write('<h3>Завдання №2</h3>');
+
+        /**
+         * Функція getWeekDay(date)
+         * Пояснення:
+         * 1. Створюємо масив `days` з короткими назвами днів.
+         * 2. Метод `date.getDay()` повертає номер дня тижня, 
+         * але увага: 0 = Неділя, 1 = Понеділок, 2 = Вівторок, ..., 6 = Субота.
+         * 3. Щоб узгодити це з вашим форматом (ПН, ВТ...), ми створюємо 
+         * масив, де індекс відповідає номеру. 
+         * (Якщо вам потрібно, щоб ПН був першим, логіка зміниться, 
+         * але приклад 2012, 0, 3 - це вівторок, getDay() = 2, 
+         * тому масив ['НД', 'ПН', 'ВТ', ...] не підійде.
+         * Використаємо масив, що відповідає вашому списку).
+         *
+         * Давайте перевіримо приклад: new Date(2012, 0, 3) - це Вівторок.
+         * `new Date(2012, 0, 3).getDay()` повертає 2.
+         * Отже, нам потрібен масив, де індекс 2 - це "ВТ".
+         * Стандартний `getDay()`: [0:НД, 1:ПН, 2:ВТ, 3:СР, 4:ЧТ, 5:ПТ, 6:СБ]
+         * Ваш список у завданні: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'НД']
+         * Давайте зробимо так, щоб це працювало з прикладом:
+         */
+        
+        function getWeekDay(date) {
+            // Масив, де індекс 0 = НД, 1 = ПН, 2 = ВТ...
+            let days = ['НД', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+            
+            // Метод getDay() повертає число від 0 (НД) до 6 (СБ)
+            // Ми просто повертаємо потрібний елемент з масиву
+            return days[date.getDay()];
+        }
+
+        // Тестуємо на прикладі з завдання
+        let date2_example = new Date(2012, 0, 3); // 3 січня 2012
+        document.write('<p>Тест для 3 січня 2012 (має бути "ВТ"): <strong>' + getWeekDay(date2_example) + '</strong></p>');
+        // Тест на сьогодні
+        document.write('<p>Сьогоднішній день: <strong>' + getWeekDay(new Date()) + '</strong></p>');
+
+
+        // --- Завдання 3 ---
+        document.write('<h3>Завдання №3</h3>');
+
+        /**
+         * Функція getLastDayOfMonth(year, month)
+         * Пояснення:
+         * Тут є чудовий трюк у JavaScript.
+         * 1. Ми створюємо дату, але вказуємо НАСТУПНИЙ місяць (month + 1).
+         * 2. Для дня ми вказуємо 0.
+         * 3. JavaScript автоматично "відкочується" назад і повертає 
+         * останній день ПОПЕРЕДНЬОГО місяця (тобто того, який нам потрібен).
+         * 4. Метод `getDate()` повертає число місяця (саме те, що нам треба).
+         */
+        function getLastDayOfMonth(year, month) {
+            // new Date(рік, наступний_місяць, 0-й_день)
+            let date = new Date(year, month + 1, 0);
+            return date.getDate();
+        }
+
+        // Тестуємо на прикладі з завдання (2020, 1) -> лютий 2020 (високосний)
+        let lastDayFeb2020 = getLastDayOfMonth(2020, 1);
+        document.write('<p>Останній день лютого 2020 (високосний): <strong>' + lastDayFeb2020 + '</strong></p>');
+        
+        // Тест на невисокосний рік
+        let lastDayFeb2021 = getLastDayOfMonth(2021, 1);
+        document.write('<p>Останній день лютого 2021 (невисокосний): <strong>' + lastDayFeb2021 + '</strong></p>');
+        
+        // Тест на місяць з 31 днем
+        let lastDayJan2024 = getLastDayOfMonth(2024, 0); // Січень
+        document.write('<p>Останній день січня 2024: <strong>' + lastDayJan2024 + '</strong></p>');
+
+
+        // --- Завдання 4 (про секунди) ---
+        // У вас в документі два завдання №4, я назву їх 4 і 5.
+        document.write('<h3>Завдання №4 (Секунди до завтра)</h3>');
+
+        /**
+         * Функція getSecondsToTomorrow()
+         * Пояснення:
+         * 1. Отримуємо поточний час `now`.
+         * 2. Створюємо об'єкт `tomorrow` для 00:00:00 наступного дня.
+         * Ми беремо поточний рік, місяць, день+1.
+         * 3. Віднімаємо дати (`tomorrow - now`). Отримуємо різницю в мілісекундах.
+         * 4. Ділимо мілісекунди на 1000, щоб отримати секунди.
+         * 5. Використовуємо `Math.round()`, щоб отримати ціле число.
+         */
+        function getSecondsToTomorrow() {
+            let now = new Date();
+
+            // Створюємо об'єкт для завтрашнього дня 00:00:00
+            let tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+            let diffMs = tomorrow - now; // Різниця в мілісекундах
+            return Math.round(diffMs / 1000); // Конвертуємо в секунди
+        }
+        
+        document.write('<p>Кількість секунд до завтра: <strong>' + getSecondsToTomorrow() + '</strong></p>');
+
+
+        // --- Завдання 5 (форматування дати) ---
+        document.write('<h3>Завдання №5 (Форматування дати)</h3>');
+        
+        /**
+         * Функція formatDate(date)
+         * Пояснення:
+         * 1. Отримуємо поточний час `now`.
+         * 2. Знаходимо різницю в секундах (`diffSec`) між `now` і `date`.
+         * 3. Перевіряємо умови по черзі:
+         * - Якщо різниця < 1 сек -> "прямо зараз"
+         * - Якщо різниця < 60 сек -> "N сек. назад"
+         * - Якщо різниця < 3600 сек (1 година) -> "M хв. назад"
+         * 4. Якщо нічого не підійшло, форматуємо повну дату:
+         * - Використовуємо `padStart(2, '0')` для додавання нулів (01, 02, 09...)
+         * - `getMonth() + 1` - знову не забуваємо про місяці з 0.
+         * - `getFullYear().toString().slice(-2)` - отримуємо останні 2 цифри року.
+         */
+        function formatDate(date) {
+            let now = new Date();
+            let diffMs = now - date;
+            let diffSec = Math.round(diffMs / 1000);
+            let diffMin = Math.round(diffSec / 60);
+            let diffHour = Math.round(diffMin / 60);
+
+            // 1. "прямо зараз"
+            if (diffSec < 1) {
+                return 'прямо зараз';
+            }
+
+            // 2. "n сек. назад"
+            if (diffSec < 60) {
+                return diffSec + ' сек. назад';
+            }
+
+            // 3. "m хв. назад"
+            if (diffMin < 60) {
+                return diffMin + ' хв. назад';
+            }
+
+            // 4. Повна дата "DD.MM.YY HH:mm"
+            // Допоміжна функція для додавання нуля попереду
+            function pad(num) {
+                return num.toString().padStart(2, '0');
+            }
+            
+            let d = date.getDate();
+            let m = date.getMonth() + 1; // +1, бо місяці з 0
+            let y = date.getFullYear().toString().slice(-2); // останні 2 цифри
+            let h = date.getHours();
+            let min = date.getMinutes();
+
+            return `${pad(d)}.${pad(m)}.${y} ${pad(h)}:${pad(min)}`;
+        }
+
+        // Тестування функції formatDate
+        document.write('<p>Тест "прямо зараз": <strong>' + formatDate(new Date()) + '</strong></p>');
+        
+        let date_10sec = new Date(Date.now() - 10 * 1000);
+        document.write('<p>Тест "10 сек. назад": <strong>' + formatDate(date_10sec) + '</strong></p>');
+        
+        let date_5min = new Date(Date.now() - 5 * 60 * 1000);
+        document.write('<p>Тест "5 хв. назад": <strong>' + formatDate(date_5min) + '</strong></p>');
+
+        let date_yesterday = new Date(Date.now() - 24 * 3600 * 1000);
+        document.write('<p>Тест "вчорашня дата": <strong>' + formatDate(date_yesterday) + '</strong></p>');
+
+        let date_example = new Date(2021, 11, 31, 10, 0); // 31.12.21 10:00
+        document.write('<p>Тест "конкретна дата (31.12.21 10:00)": <strong>' + formatDate(date_example) + '</strong></p>');
+
+    </script>
+</body>
+</html>
