@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 8 - CSS Генератор</title>
+    
+    <style>
+        /* --- Стилі для вкладок (Частина 1) --- */
+        /*  */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #tabs {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #tabs .tab {
+            display: inline-block;
+            padding: 10px 15px;
+            cursor: pointer;
+            position: relative;
+            z-index: 5;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 3px 3px 0 0;
+            margin-bottom: -1px; /* Щоб перекрити рамку .tabContent */
+        }
+
+        #tabs .whiteborder {
+            border: 1px solid #707070;
+            border-bottom: 1px solid #fff; /* "З'єднує" з контентом */
+            background-color: #fff;
+            z-index: 10;
+        }
+
+        #tabs .tabContent {
+            width: auto; /* Змінено з 300px для гнучкості */
+            height: auto; /* Змінено з 60px */
+            border: 1px solid #707070;
+            position: relative;
+            top: 0; /* Виправлено з -1px для кращого прилягання */
+            z-index: 1;
+            padding: 20px;
+            border-radius: 0 3px 3px 3px;
+        }
+
+        #tabs .hide {
+            display: none;
+        }
+
+        #tabs .show {
+            display: block;
+        }
+
+        /* --- Стилі для Генератора (Частина 2) --- */
+        .generator-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .generator-row label {
+            width: 180px; /* Фіксована ширина для міток */
+            flex-shrink: 0;
+        }
+        .generator-row input[type="range"] {
+            flex-grow: 1;
+            margin: 0 10px;
+        }
+        .generator-row input[type="text"],
+        .generator-row select {
+            width: 70px;
+        }
+        
+        /* Блок для демонстрації  */
+        #block {
+            width: 150px;
+            height: 150px;
+            background: green;
+            margin-top: 20px;
+            border: 2px dashed #333;
+            /* Додамо transition, щоб бачити ефект з Варіанту 19 */
+            transition: all 0.5s; 
+        }
+        
+        #block:hover {
+            /* Приклад для transition-property: transform */
+            transform: scale(1.1);
+            background-color: darkgreen;
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box; /* Щоб padding не ламав ширину */
+            height: 100px;
+            margin-top: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CSS Генератор</h1>
+
+    <div id="tabs">
+        <div class="tab whiteborder">border-radius</div>
+        <div class="tab">transition-duration</div>
+        <div class="tab">transition-property</div>
+
+        <div class="tabContent show">
+            <h3>Генератор `border-radius`</h3>
+            
+            <div class="generator-row">
+                <label for="rtl">Верхній лівий радіус:</label>
+                <input type="range" id="rtl" min="0" max="100" value="10">
+                <input type="text" id="ttl" value="10">
+            </div>
+            
+            <div class="generator-row">
+                <label for="rtr">Верхній правий радіус:</label>
+                <input type="range" id="rtr" min="0" max="100" value="10">
+                <input type="text" id="ttr" value="10">
+            </div>
+            
+            <div class="generator-row">
+                <label for="rbr">Нижній правий радіус:</label>
+                <input type="range" id="rbr" min="0" max="100" value="10">
+                <input type="text" id="tbr" value="10">
+            </div>
+            
+            <div class="generator-row">
+                <label for="rbl">Нижній лівий радіус:</label>
+                <input type="range" id="rbl" min="0" max="100" value="10">
+                <input type="text" id="tbl" value="10">
+            </div>
+
+            <label>Результат заокруглення:</label>
+            <div id="block"></div>
+            
+            <label for="code-radius">CSS-код:</label>
+            <textarea id="code-radius" readonly></textarea>
+        </div>
+
+        <div class="tabContent hide">
+            <h3>Генератор `transition-duration`</h3>
+
+            <div class="generator-row">
+                <label for="tr-dur-range">Тривалість переходу (с):</label>
+                <input type="range" id="tr-dur-range" min="0" max="10" value="0.5" step="0.1">
+                <input type="text" id="tr-dur-text" value="0.5">
+            </div>
+            
+            <p>Наведіть курсор на зелений квадрат на першій вкладці, щоб побачити ефект.</p>
+
+            <label for="code-duration">CSS-код:</label>
+            <textarea id="code-duration" readonly></textarea>
+        </div>
+
+        <div class="tabContent hide">
+            <h3>Генератор `transition-property`</h3>
+
+            <div class="generator-row">
+                <label for="tr-prop-select">Властивість для переходу:</label>
+                <select id="tr-prop-select">
+                    <option value="all">all</option>
+                    <option value="width">width</option>
+                    <option value="height">height</option>
+                    <option value="background-color">background-color</option>
+                    <option value="opacity">opacity</option>
+                    <option value="transform">transform</option>
+                </select>
+            </div>
+            
+            <p>Наведіть курсор на зелений квадрат на першій вкладці, щоб побачити ефект.</p>
+
+            <label for="code-property">CSS-код:</label>
+            <textarea id="code-property" readonly></textarea>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Логіка для вкладок (Частина 1) ---
+
+        // Глобальні змінні для табів [cite: 87, 90]
+        var tab;
+        var tabContent;
+
+        // Виконуємо при завантаженні сторінки 
+        window.onload = function() {
+            // Отримуємо масиви елементів [cite: 96, 97]
+            tabContent = document.getElementsByClassName('tabContent');
+            tab = document.getElementsByClassName('tab');
+            
+            // Приховуємо весь контент, окрім першого (індекс 0) [cite: 98]
+            hideTabsContent(1);
+
+            // Встановлюємо обробник кліку на всю область вкладок 
+            document.getElementById('tabs').onclick = function(event) {
+                var target = event.target; // Елемент, по якому клікнули [cite: 119]
+                
+                // Перевіряємо, чи клікнули саме на заголовок вкладки 
+                if (target.className == 'tab') {
+                    // Проходимо по всіх заголовках [cite: 121]
+                    for (var i = 0; i < tab.length; i++) {
+                        if (target == tab[i]) {
+                            // Якщо знайшли той, по якому клікнули,
+                            // показуємо його контент за індексом 'i' [cite: 122-123]
+                            showTabsContent(i);
+                            break; // Зупиняємо цикл [cite: 127]
+                        }
+                    }
+                }
+            };
+
+            // --- Логіка для Генератора (Частина 2 + Завдання) ---
+            
+            // Отримуємо всі елементи для border-radius [cite: 207-221]
+            var rtl = document.getElementById('rtl');
+            var rtr = document.getElementById('rtr');
+            var rbr = document.getElementById('rbr');
+            var rbl = document.getElementById('rbl');
+            
+            var ttl = document.getElementById('ttl');
+            var ttr = document.getElementById('ttr');
+            var tbr = document.getElementById('tbr');
+            var tbl = document.getElementById('tbl');
+            
+            var block = document.getElementById('block');
+            var codeRadius = document.getElementById('code-radius');
+            
+            // Отримуємо елементи для transition-duration (Варіант 19)
+            var trDurRange = document.getElementById('tr-dur-range');
+            var trDurText = document.getElementById('tr-dur-text');
+            var codeDuration = document.getElementById('code-duration');
+            
+            // Отримуємо елементи для transition-property (Варіант 19)
+            var trPropSelect = document.getElementById('tr-prop-select');
+            var codeProperty = document.getElementById('code-property');
+
+            // --- Встановлюємо обробники подій 'oninput' ---
+            
+            // Замість oninput в HTML[cite: 181], ми робимо це в JS - це чистіший підхід
+            rtl.oninput = generateBorderRadius;
+            rtr.oninput = generateBorderRadius;
+            rbr.oninput = generateBorderRadius;
+            rbl.oninput = generateBorderRadius;
+            
+            trDurRange.oninput = generateTransitionDuration;
+            trPropSelect.oninput = generateTransitionProperty;
+            
+            // --- Функції-генератори ---
+
+            // Функція для border-radius
+            function generateBorderRadius() {
+                // 1. Оновлюємо текстові поля 
+                ttl.value = rtl.value;
+                ttr.value = rtr.value;
+                tbr.value = rbr.value;
+                tbl.value = rbl.value;
+                
+                // 2. Змінюємо стиль блоку 
+                var radiusString = `${rtl.value}px ${rtr.value}px ${rbr.value}px ${rbl.value}px`;
+                block.style.borderRadius = radiusString;
+                
+                // 3. Генеруємо код в textarea (Завдання 1) 
+                var cssCode = `border-radius: ${radiusString};\n`;
+                cssCode += `-webkit-border-radius: ${radiusString};\n`;
+                cssCode += `-moz-border-radius: ${radiusString};`;
+                codeRadius.value = cssCode;
+            }
+            
+            // Функція для transition-duration (Варіант 19)
+            function generateTransitionDuration() {
+                var duration = trDurRange.value;
+                trDurText.value = duration; // Оновлюємо текстове поле
+                
+                // Змінюємо стиль демо-блоку
+                block.style.transitionDuration = duration + 's';
+                
+                // Генеруємо код в textarea
+                var cssCode = `transition-duration: ${duration}s;\n`;
+                cssCode += `-webkit-transition-duration: ${duration}s;\n`;
+                cssCode += `-moz-transition-duration: ${duration}s;`;
+                codeDuration.value = cssCode;
+            }
+            
+            // Функція для transition-property (Варіант 19)
+            function generateTransitionProperty() {
+                var property = trPropSelect.value;
+                
+                // Змінюємо стиль демо-блоку
+                block.style.transitionProperty = property;
+                
+                // Генеруємо код в textarea
+                var cssCode = `transition-property: ${property};\n`;
+                cssCode += `-webkit-transition-property: ${property};\n`;
+                cssCode += `-moz-transition-property: ${property};`;
+                codeProperty.value = cssCode;
+            }
+            
+            // Запускаємо генератори при завантаженні,
+            // щоб заповнити поля початковими значеннями
+            generateBorderRadius();
+            generateTransitionDuration();
+            generateTransitionProperty();
+        }
+
+
+        // Функція приховування контенту вкладок [cite: 102]
+        function hideTabsContent(a) {
+            for (var i = a; i < tabContent.length; i++) {
+                tabContent[i].classList.remove('show');
+                tabContent[i].classList.add('hide'); // [cite: 104]
+                tab[i].classList.remove('whiteborder'); // [cite: 104]
+            }
+        }
+
+        // Функція показу контенту вкладки [cite: 130]
+        function showTabsContent(b) {
+            // Перевіряємо, чи контент вже не прихований [cite: 131]
+            if (tabContent[b].classList.contains('hide')) {
+                hideTabsContent(0); // Приховуємо всі 
+                tab[b].classList.add('whiteborder'); // Робимо заголовок активним [cite: 141]
+                tabContent[b].classList.remove('hide'); // Показуємо контент [cite: 141]
+                tabContent[b].classList.add('show'); // [cite: 141] (Виправлено з 'classlist')
+            }
+        }
+
+    </script>
+
+</body>
+</html>
