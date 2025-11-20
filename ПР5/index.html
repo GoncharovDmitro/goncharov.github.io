@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple ToDo List</title>
+    <style>
+        /* --- Завдання 0: Оформлення CSS --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        #todo-container {
+            width: 400px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* Стиль для поля вводу */
+        #new-task-input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box; /* Щоб padding не ламав ширину */
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        #new-task-input:focus {
+            border-color: #888;
+        }
+
+        /* Стиль списку */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        li:hover {
+            background-color: #fafafa;
+        }
+
+        /* Ліва частина: чекбокс + текст + дата */
+        .task-left {
+            display: flex;
+            align-items: center;
+            flex-grow: 1; /* Займає весь вільний простір */
+            gap: 10px;
+        }
+
+        /* Стиль самого тексту завдання */
+        .task-text {
+            font-size: 16px;
+            cursor: pointer; /* Показує, що можна клікнути (для редагування) */
+            word-break: break-all;
+        }
+
+        /* Стиль дати */
+        .task-date {
+            font-size: 0.8em;
+            color: #888;
+            margin-left: 5px;
+        }
+
+        /* Завдання 4: Виконане завдання */
+        .completed .task-text {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        /* Кнопка видалення (хрестик) */
+        .delete-btn {
+            background: none;
+            border: 1px solid #ffcccc;
+            color: red;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background-color: #ffe6e6;
+        }
+
+        /* Інпут для редагування (з'являється при дабл-кліку) */
+        .edit-input {
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ToDo List</h1>
+
+    <div id="todo-container">
+        <input type="text" id="new-task-input" placeholder="Додайте завдання...">
+        
+        <ul id="todo-list">
+            </ul>
+    </div>
+
+    <script>
+        // Отримуємо основні елементи
+        const inputField = document.getElementById('new-task-input');
+        const todoList = document.getElementById('todo-list');
+
+        // --- Завдання 1: Додавання на клавішу Enter ---
+        inputField.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const taskText = inputField.value.trim();
+                
+                if (taskText !== "") {
+                    addTask(taskText);
+                    inputField.value = ""; // Очистити поле
+                }
+            }
+        });
+
+        function addTask(text) {
+            // Створення елементу списку
+            const li = document.createElement('li');
+
+            // --- Завдання 2: Форматування дати і часу (DD.MM.YY, HH:mm) ---
+            const now = new Date();
+            
+            // Функція для додавання нуля спереду (наприклад, 5 -> 05)
+            const format = (num) => num.toString().padStart(2, '0');
+            
+            const day = format(now.getDate());
+            const month = format(now.getMonth() + 1);
+            const year = now.getFullYear().toString().slice(-2); // Останні 2 цифри року
+            const hours = format(now.getHours());
+            const minutes = format(now.getMinutes());
+
+            const dateString = `${day}.${month}.${year}, ${hours}:${minutes}`;
+
+            // --- Створення внутрішньої структури ---
+            
+            // Контейнер для лівої частини
+            const leftDiv = document.createElement('div');
+            leftDiv.className = 'task-left';
+
+            // Завдання 3: Checkbox
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            
+            // Завдання 4: Логіка чекбоксу
+            checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    li.classList.add('completed'); // Стає сірим і перекресленим
+                    checkbox.remove(); // Чекбокс зникає
+                }
+            });
+
+            // Текст завдання
+            const spanText = document.createElement('span');
+            spanText.className = 'task-text';
+            spanText.innerText = text;
+            // Додаємо підказку
+            spanText.title = "Подвійний клік для редагування";
+
+            // Дата
+            const spanDate = document.createElement('span');
+            spanDate.className = 'task-date';
+            spanDate.innerText = `(${dateString})`;
+
+            // Збираємо ліву частину
+            leftDiv.appendChild(checkbox);
+            leftDiv.appendChild(spanText);
+            leftDiv.appendChild(spanDate);
+
+            // --- Завдання 5: Кнопка видалення (хрестик) ---
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerText = 'X';
+            
+            deleteBtn.addEventListener('click', function() {
+                li.remove();
+            });
+
+            // --- Завдання 6: Редагування (Double Click) ---
+            spanText.addEventListener('dblclick', function() {
+                // Якщо завдання вже виконане, редагувати не даємо (опціонально, але логічно)
+                if (li.classList.contains('completed')) return;
+
+                // Створюємо інпут замість спану
+                const editInput = document.createElement('input');
+                editInput.type = 'text';
+                editInput.className = 'edit-input';
+                editInput.value = spanText.innerText;
+
+                // Замінюємо текст на інпут
+                leftDiv.replaceChild(editInput, spanText);
+                editInput.focus(); // Фокус на інпут
+
+                // Обробка Enter в режимі редагування
+                editInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        // Зберігаємо новий текст
+                        const newText = editInput.value.trim();
+                        if (newText !== "") {
+                            spanText.innerText = newText;
+                        }
+                        // Повертаємо спан назад замість інпуту
+                        leftDiv.replaceChild(spanText, editInput);
+                    }
+                });
+
+                // (Додатково) Якщо клікнули повз інпут - теж зберегти або скасувати
+                editInput.addEventListener('blur', function() {
+                     leftDiv.replaceChild(spanText, editInput);
+                });
+            });
+
+            // Додаємо все в li
+            li.appendChild(leftDiv);
+            li.appendChild(deleteBtn);
+
+            // Додаємо li в список
+            todoList.appendChild(li);
+        }
+    </script>
+</body>
+</html>

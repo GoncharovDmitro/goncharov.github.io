@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота: Promise API</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Стилі для Завдання 0 */
+        #loader {
+            color: #007BFF;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            min-height: 40px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Promise API (Середній рівень)</h1>
+
+    <p>Оберіть завдання для перевірки:</p>
+    <button onclick="runTask2(15)">Завдання 2 (Число 15)</button>
+    <button onclick="runTask2(5)">Завдання 2 (Число 5)</button>
+    <br>
+    <button onclick="runTask3()">Завдання 3 (Випадкове)</button>
+
+    <div id="loader" style="display: none;">⏳ Завантаження...</div>
+    <div id="result">Тут буде результат...</div>
+</div>
+
+<script>
+    // --- ДОПОМІЖНІ ФУНКЦІЇ (Завдання 0) ---
+    
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('result');
+
+    // Функція показати лоадер
+    function showLoader() {
+        loader.style.display = 'block'; //
+        resultDiv.innerHTML = ''; // Очищаємо попередній результат
+    }
+
+    // Функція сховати лоадер
+    function hideLoader() {
+        loader.style.display = 'none'; //
+    }
+
+    // Функція для виводу тексту на екран
+    function displayOutput(message, isError = false) {
+        resultDiv.innerHTML = message;
+        resultDiv.className = isError ? 'error' : 'success';
+    }
+
+
+    // --- ЗАВДАННЯ 2 ---
+    // Функція checkNumber повертає Promise
+    function checkNumber(num) {
+        return new Promise((resolve, reject) => {
+            console.log(`Перевіряємо число: ${num}`);
+            
+            // Імітуємо невеличку затримку, щоб було видно лоадер (для наочності)
+            setTimeout(() => {
+                if (num > 10) {
+                    resolve("Успіх: Число більше 10"); //
+                } else {
+                    reject("Помилка: Число менше або дорівнює 10"); //
+                }
+            }, 1000); 
+        });
+    }
+
+    // Функція для запуску Завдання 2 по кліку кнопки
+    function runTask2(numberToCheck) {
+        showLoader(); // Показуємо лоадер перед стартом
+
+        checkNumber(numberToCheck)
+            .then((message) => {
+                displayOutput(message, false); // Виводимо успішне повідомлення
+            })
+            .catch((error) => {
+                displayOutput(error, true); // Виводимо помилку
+            })
+            .finally(() => {
+                hideLoader(); // Ховаємо лоадер у будь-якому випадку
+            });
+    }
+
+
+    // --- ЗАВДАННЯ 3 ---
+    // Функція randomNumber повертає Promise з випадковою затримкою
+    function randomNumber() {
+        return new Promise((resolve) => {
+            // Генеруємо випадковий час від 1000 до 3000 мс (1-3 секунди)
+            const delay = Math.floor(Math.random() * 2000) + 1000; 
+            
+            // Генеруємо випадкове число від 1 до 100
+            const randomNum = Math.floor(Math.random() * 100) + 1;
+
+            console.log(`Затримка буде: ${delay}мс`);
+
+            setTimeout(() => {
+                // Повертаємо об'єкт з числом та часом, щоб вивести все разом
+                resolve({ number: randomNum, time: delay }); 
+            }, delay);
+        });
+    }
+
+    // Функція для запуску Завдання 3 по кліку кнопки
+    function runTask3() {
+        showLoader(); // Завдання 0
+
+        randomNumber()
+            .then((data) => {
+                // Виводимо результат та час роботи
+                const msg = `Випало число: <b>${data.number}</b> (Час очікування: ${data.time / 1000} сек)`;
+                displayOutput(msg, false);
+            })
+            .catch((error) => {
+                displayOutput("Сталася помилка: " + error, true);
+            })
+            .finally(() => {
+                hideLoader(); // Завдання 0
+            });
+    }
+
+</script>
+
+</body>
+</html>

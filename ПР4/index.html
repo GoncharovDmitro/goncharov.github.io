@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <title>Geolocation - Все в одному</title>
+    <style>
+        /* --- Тут починається CSS (стилі) --- */
+        body { 
+            font-family: sans-serif; 
+            padding: 20px; 
+        }
+        div { 
+            margin-bottom: 10px; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+        input[type="button"] { 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            margin-right: 10px;
+        }
+        #distance { background-color: #f0f8ff; }
+        #location { background-color: #f5f5f5; }
+    </style>
+</head>
+<body>
+
+    <h1>Geolocation API Test</h1>
+
+    <form>
+        <input type="button" id="watch" value="Watch me">
+        <input type="button" id="clearWatch" value="Clear watch">
+    </form>
+    <br>
+
+    <div id="location">
+        Your location will go here.
+    </div>
+
+    <div id="distance">
+        Distance from College will go here.
+    </div>
+
+    <script>
+        // Глобальна змінна для ID відслідковування
+        let watchId = null;
+
+        // Координати Коледжу (з методички)
+        const ourCoords = {
+            latitude: 48.94321,
+            longitude: 24.73380
+        };
+
+        // Запуск після завантаження сторінки
+        document.addEventListener('DOMContentLoaded', getMyLocation);
+
+        function getMyLocation() {
+            if (navigator.geolocation) {
+                // Прив'язуємо кнопки до функцій
+                var watchButton = document.getElementById("watch");
+                watchButton.onclick = watchLocation;
+
+                var clearWatchButton = document.getElementById("clearWatch");
+                clearWatchButton.onclick = clearWatch;
+            } else {
+                alert("Oops, no geolocation support");
+            }
+        }
+
+        // Функція для виведення координат та дистанції
+        function displayLocation(position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            let accuracy = position.coords.accuracy; // Точність
+
+            let div = document.getElementById("location");
+            div.innerHTML = `You are at Latitude: ${latitude}, Longitude: ${longitude}`;
+            div.innerHTML += ` (with ${accuracy} meters accuracy)`;
+
+            // Розрахунок дистанції
+            let km = computeDistance(position.coords, ourCoords);
+            let distance = document.getElementById("distance");
+            distance.innerHTML = `You are ${km} km from the College`;
+        }
+
+        // Функція для відображення помилок
+        function displayError(error) {
+            const errorTypes = {
+                0: "Unknown error",
+                1: "Permission denied by user",
+                2: "Position is not available",
+                3: "Request timed out"
+            };
+            
+            let errorMessage = errorTypes[error.code];
+            if (error.code == 0 || error.code == 2) {
+                errorMessage = errorMessage + " " + error.message;
+            }
+            
+            let div = document.getElementById("location");
+            div.innerHTML = errorMessage;
+        }
+
+        // --- Функції для стеження (Частина 2) ---
+
+        function watchLocation() {
+            // watchPosition постійно оновлює дані
+            watchId = navigator.geolocation.watchPosition(displayLocation, displayError);
+        }
+
+        function clearWatch() {
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                let div = document.getElementById("location");
+                div.innerHTML += " (Watching stopped)";
+            }
+        }
+
+        // --- Математика (Формула гаверсинуса) ---
+
+        function computeDistance(startCoords, destCoords) {
+            let startLatRads = degreesToRadians(startCoords.latitude);
+            let startLongRads = degreesToRadians(startCoords.longitude);
+            let destLatRads = degreesToRadians(destCoords.latitude);
+            let destLongRads = degreesToRadians(destCoords.longitude);
+
+            let Radius = 6371; // Радіус Землі
+
+            let distance = Math.acos(Math.sin(startLatRads) * Math.sin(destLatRads) +
+                        Math.cos(startLatRads) * Math.cos(destLatRads) *
+                        Math.cos(startLongRads - destLongRads)) * Radius;
+
+            return distance;
+        }
+
+        function degreesToRadians(degrees) {
+            let radians = (degrees * Math.PI) / 180;
+            return radians;
+        }
+    </script>
+</body>
+</html>
